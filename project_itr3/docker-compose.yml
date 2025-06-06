@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+  master:
+    build:
+      context: .
+      dockerfile: Dockerfile.master
+    ports:
+      - "5000:5000"
+    networks:
+      - log-network
+
+  secondary1:
+    build:
+      context: .
+      dockerfile: Dockerfile.secondary
+    ports:
+      - "5001:5001"
+    networks:
+      - log-network
+
+  secondary2:
+    build:
+      context: .
+      dockerfile: Dockerfile.secondary
+    ports:
+      - "5002:5001"
+    networks:
+      - log-network
+
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    depends_on:
+      - master
+      - secondary1
+      - secondary2
+    networks:
+      - log-network
+
+networks:
+  log-network:
+    driver: bridge
