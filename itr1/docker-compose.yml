@@ -1,0 +1,31 @@
+services:
+  master:
+    build: ./master
+    ports:
+      - "5000:5000"
+      - "50050:50050"
+    networks:
+      - replicated-net
+  secondary1:
+    build: ./secondary
+    ports:
+      - "5001:5001"
+      - "50051:50051"
+    environment:
+      - HTTP_PORT=5001
+      - GRPC_PORT=50051
+    networks:
+      - replicated-net
+  secondary2:
+    build: ./secondary
+    ports:
+      - "5002:5002"
+      - "50052:50052"
+    environment:
+      - HTTP_PORT=5002
+      - GRPC_PORT=50052
+    networks:
+      - replicated-net
+networks:
+  replicated-net:
+    driver: bridge
