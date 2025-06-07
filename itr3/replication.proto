@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+service ReplicationService {
+rpc ReplicateMessage (MessageRequest) returns (AckResponse) {}
+}
+
+message MessageRequest {
+string message = 1;
+}
+
+message AckResponse {
+bool success = 1;
+}
